@@ -1,0 +1,25 @@
+<!-- Para ter sugestões de cabeçalhos com Bootstrap, visite: http://bootsnipp.com/ -->
+<nav class="navbar navbar-default navbar-fixed-top">
+    <div class="container-fluid">
+        <div class="navbar-header">
+            <a href="#/menu" class="navbar-brand">               
+                <i class="glyphicon glyphicon-home"></i>
+                HELP - Sistema de Chamados de T.I.
+            </a>
+        </div>
+        <div id="navbar" class="navbar-collapse collapse">
+            <form class="navbar-form navbar-right" ng-submit="validaLogin(login)" ng-hide="Configuracoes.nomeUsuario.length >0">
+                <div class="form-group">
+                    <input type="text" placeholder="Usuário" class="form-control" ng-model="login.usuario" size="15" required autofocus>
+                </div>
+                <div class="form-group">
+                    <input type="password" placeholder="Senha" class="form-control" ng-model="login.senha" size="10" required>
+                </div>
+                <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-user"></i> Login</button>
+            </form>            
+            <div class="navbar-form navbar-right" ng-show="Configuracoes.nomeUsuario.length >0">  
+                <a href="#/login" ng-click="logout()" class="btn btn-danger" ><span class="glyphicon glyphicon-log-out"></span> Logout</a>
+            </div>
+        </div>
+    </div>
+</nav>

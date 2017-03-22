@@ -1,0 +1,184 @@
+<div ng-include src="'views/menu.html'"></div><br>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <!-- criacao do painel do formulario -->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4><i class="glyphicon glyphicon-user"></i> Cadastro de Usuários</h4>
+                </div>                    
+                <div class="panel-body">                    
+                    <form name="formEquipamento" class="form-horizontal"   ng-submit="salvaUsuario(usuario);">
+                        <fieldset>
+                            <!-- titulo do formulario -->
+                            <legend>Formulário de Usuário</legend>
+
+
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for=login">Login</label>  
+                                <div class="col-md-6">
+                                    <input id="login" name="login" type="text" placeholder="Login do usuario" class="form-control input-md" ng-model="usuario.login" value="{{usuario.login}}" ng-minlength="3"  ng-maxlength="20">                                    
+                                </div>
+                                <div ng-class="{'alert alert-danger': formUsuario.login.$invalid}" 
+                                         ng-messages="formUsuario.nome.$error" ng-if="formUsuario.login.$touched">
+                                        <!-- somente exibiremos as mensagens de erros após o campo ter sido 'tocado' touched -->
+                                        <p ng-message="minlength">A descrição do login é muito curta.</p>
+                                        <p ng-message="maxlength">A descrição do login é muito longa.</p>
+                                        <p ng-message="required">Login é obrigatório.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="nome">Nome</label>  
+                                <div class="col-md-6">
+                                    <input id="nome" name="nome" type="text" placeholder="Nome do usuário" class="form-control input-md" ng-model="usuario.nome" value="{{usuario.nome}}" ng-minlength="4"  ng-maxlength="40">                                    
+                                </div>
+                                <div ng-class="{'alert alert-danger': formUsuario.nome.$invalid}" 
+                                         ng-messages="formUsuario.nome.$error" ng-if="formUsuario.nome.$touched">
+                                        <!-- somente exibiremos as mensagens de erros após o campo ter sido 'tocado' touched -->
+                                        <p ng-message="minlength">A descrição do nome muito curta.</p>
+                                        <p ng-message="maxlength">A descrição do nome é muito longa.</p>
+                                        <p ng-message="required">Nome é obrigatório.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="email">Email</label>  
+                                <div class="col-md-6">
+                                    <input id="email" name="email" type="email" placeholder="Email do usuário" class="form-control input-md" ng-model="usuario.email" value="{{usuario.email}}" ng-minlength="4"  ng-maxlength="40">                                                   
+                                </div>
+                                <div ng-class="{'alert alert-danger': formUsuario.email.$invalid}" 
+                                         ng-messages="formUsuario.email.$error" ng-if="formUsuario.email.$touched">
+                                        <!-- somente exibiremos as mensagens de erros após o campo ter sido 'tocado' touched -->
+                                        <p ng-message="minlength">A descrição do email é muito curta.</p>
+                                        <p ng-message="maxlength">A descrição do email é muito longa.</p>
+                                        <p ng-message="required">Email é obrigatório.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="senha">Senha</label>  
+                                <div class="col-md-6">
+                                    <input id="senha" name="senha" type="password" placeholder="Senha do usuário" class="form-control input-md" ng-model="usuario.senha" value="{{usuario.senha}}" ng-minlength="6"  ng-maxlength="40">                                  
+                                </div>
+                                <div ng-class="{'alert alert-danger': formUsuario.senhaq.$invalid}" 
+                                         ng-messages="formUsuario.senha.$error" ng-if="formUsuario.senha.$touched">
+                                        <!-- somente exibiremos as mensagens de erros após o campo ter sido 'tocado' touched -->
+                                        <p ng-message="minlength">A senha é muito curta.</p>
+                                        <p ng-message="maxlength">A senha é muito longa.</p>
+                                        <p ng-message="required">Senha é obrigatória.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="departamento">Departamento</label>  
+                                <div class="col-md-6">
+                                    <input id="departamento" name="departamento" type="text" placeholder="Departamento do usuário" class="form-control input-md" ng-model="usuario.departamento" value="{{usuario.departamento}}" ng-minlength="2"  ng-maxlength="20">                                  
+                                </div>
+                                <div ng-class="{'alert alert-danger': formUsuario.departamento.$invalid}" 
+                                         ng-messages="formUsuario.departamento.$error" ng-if="formUsuario.departamento.$touched">
+                                        <!-- somente exibiremos as mensagens de erros após o campo ter sido 'tocado' touched -->
+                                        <p ng-message="minlength">A descrição do departamento muito curta.</p>
+                                        <p ng-message="maxlength">A descrição do departamento é muito longa.</p>
+                                        <p ng-message="required">Departamento é obrigatório.</p>
+                                </div>
+                            </div>
+                            
+                            <div class="form-group">
+                                <label class="col-md-4 control-label" for="tipoUs">Tipo de usuário</label>  
+                                <div class="col-md-6">
+                                    <select class="form-control" ng-model="usuario.tipoUs" value="{{usuario.tipoUs}}">
+                                        <option value="U">Usuário</option>
+                                        <option value="A">Administrador</option>
+                                        <option value="T">Técnico</option>
+                                    </select>                                  
+                                </div>
+                                <div ng-class="{'alert alert-danger': formUsuario.tipoUs.$invalid}" 
+                                         ng-messages="formUsuario.tipoUs.$error" ng-if="formUsuario.tipoUs.$touched">
+                                        <!-- somente exibiremos as mensagens de erros após o campo ter sido 'tocado' touched -->
+                                        <p ng-message="maxlength">A descrição do tipo é muito longa.</p>
+                                        <p ng-message="required">Tipo dee usuário é obrigatório.</p>
+                                </div>
+                            </div>
+
+                            <!-- Exemplo de botão -->
+                            <div class="well">
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label"></label>
+                                    <div class="col-md-12">
+                                        <button id="salvar" name="salvar" class="btn btn-success" type="submit" title="Salva os dados do formulário" data-ng-disabled="formUsuario.$invalid"><i class="glyphicon glyphicon-save"></i>&nbsp;Salvar os dados</button>
+                                        <a href="" class="btn btn-danger" ng-click="limpaArrayUsuario();
+                                            menu()" title="Cancelar o cadastro"><span class="glyphicon glyphicon-share-alt"></span> Cancelar</a>
+
+                                        <div ng-messages='requisicaoServidor'>
+                                            <div ng-message='aguarde' class='text-info'>Por favor, aguarde...<img src='img/aguarde.gif'></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                </div>
+                
+            </div>
+            
+        </div>
+
+        <div class="col-md-8">
+            <div>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span>
+                    <input type="text" ng-model="filterUsuario" class="form-control input-lg" placeholder="Procurar...">
+                </div>
+            </div>
+
+            <div class="panel panel-primary" ng-init="carregaUsuarios()">
+                <div class="panel-heading">
+                    <h4>Listagem de Usuários</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="table-responsive">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Login</th>
+                                <th>Nome</th>
+                                <th>Email</th>
+                                <th>Departamento</th>
+                                <th>Tipo de Usuário</th>
+                                <th>Editar</th>
+                            </tr>
+
+                            <tr ng-repeat="u in usuarios| filter:filterUsuario">
+                                <td>{{u.login}}</td>
+                                <td>{{u.nome}}</td>
+                                <td>{{u.email}}</td>
+                                <td>{{u.departamento}}</td>
+                                <td>{{u.tipoUs}}</td>
+                                <td>
+                                    <button type="button" class="btn btn-info" ng-click="editarUsuario(u)">
+                                        <i class="glyphicon glyphicon-edit"></i><small>Editar</small>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel-footer">
+                    <span class="badge pull-right">
+                        Total de registros: {{(usuarios|filter: filterUsuario).length}} de {{usuarios.length}}
+                    </span>
+                </div>
+
+                <div class="alert alert-info" ng-show="usuarios.length === 0">
+                    <p>Ainda não há nenhum usuário cadastrado!</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

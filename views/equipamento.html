@@ -1,0 +1,156 @@
+<div ng-include src="'views/menu.html'"></div><br>
+
+<div class="container-fluid">
+    <center>
+        <div class="row">
+            <div class="col-md-6" ng-hide="Configuracoes.tipoUs == 'U'">
+                <!-- criacao do painel do formulario -->
+                <div class="panel panel-primary">
+                    <div class="panel-heading">
+                        <h4><i class="glyphicon glyphicon-hdd"></i> Cadastro de Equipamentos</h4>
+                    </div>                    
+                    <div class="panel-body">                    
+                        <form name="formEquipamento" class="form-horizontal"   ng-submit="salvaEquipamento(equipamento);limpaEquipamento(formEquipamento);">
+                            <fieldset>
+                                <!-- titulo do formulario -->
+                                <legend>Formulário de Equipamentos</legend>
+
+
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="id">Código</label>  
+                                    <div class="col-md-4">
+                                        <input id="id" name="id" type="text" placeholder="Gerado automaticamente" class="form-control input-md" readonly ng-model="equipamento.cod" value="{{equipamento.cod}}">                                    
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="descricao">Descrição:*</label>  
+                                    <div class="col-md-8">
+                                        <input id="descricao" name="descricao" type="text" placeholder="Descrição do Equipamento" class="form-control input-md" required 
+                                               ng-model="equipamento.descricao" value="{{equipamento.descricao}}" ng-minlength="3"  ng-maxlength="20">  
+
+                                        <div ng-class="{'alert alert-danger': formEquipamento.descricao.$invalid}" 
+                                             ng-messages="formEquipamento.descricao.$error" ng-if="formEquipamento.descricao.$touched">
+                                            <!-- somente exibiremos as mensagens de erros após o campo ter sido 'tocado' touched -->
+                                            <p ng-message="minlength">A descrição do equipamento é muito curta.</p>
+                                            <p ng-message="maxlength">A descrição do equipamento é muito longa.</p>
+                                            <p ng-message="required">A descrição do equipamento é obrigatória.</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="tipo">Tipo:*</label>  
+                                    <div class="col-md-8">
+                                        <select class="form-control" id="tipo" ng-model="equipamento.tipoEq" value="{{equipamento.tipoEq}}">
+                                            <option value="Computador">Computador</option>
+                                            <option value="Notebook">Notebook</option>
+                                            <option value="Tablet">Tablet</option>
+                                        </select>
+
+                                        <div ng-class="{'alert alert-danger': formEquipamento.tipo.$invalid}" 
+                                             ng-messages="formEquipamento.tipo.$error" ng-if="formEquipamento.tipo.$touched">
+                                            <!-- somente exibiremos as mensagens de erros após o campo ter sido 'tocado' touched -->
+                                            <p ng-message="minlength">O tipo do equipamento é muito curto.</p>
+                                            <p ng-message="maxlength">O tipo do equipamento é muito longo.</p>
+                                            <p ng-message="required">O tipo do equipamento é obrigatório.</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-2 control-label" for="login">
+                                        Proprietário
+                                    </label>
+
+                                    <div class="col-md-6">
+                                        <select class="form-control" name="login" id="login" ng-model="equipamento.login" value="{{equipamento.login}}" ng-init="carregaUsuarios()"
+                                                ng-options="usuario as usuario.nome for usuario in usuarios track by usuario.login">
+                                            <option value="">Selecione uma opção ...</option> 
+                                        </select>
+                                    </div>
+                                </div>                            
+
+                                <!-- Exemplo de botão -->
+                                <div class="well">
+                                    <div class="form-group">
+                                        <label class="col-md-2 control-label"></label>
+                                        <div class="col-md-8">
+                                            <button id="salvar" name="salvar" class="btn btn-success" type="submit" title="Salva os dados do formulário" data-ng-disabled="formEquipamento.$invalid"><i class="glyphicon glyphicon-save"></i>&nbsp;Salvar os dados</button>
+                                            <a href="" class="btn btn-danger" ng-click="limpaArrayEquipamento();menu();" title="Cancelar o cadastro"><span class="glyphicon glyphicon-share-alt"></span> Cancelar</a>
+
+                                            <div ng-messages='requisicaoServidor'>
+                                                <div ng-message='aguarde' class='text-info'>Por favor, aguarde...<img src='img/aguarde.gif'></div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </fieldset>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-md-6">
+                <div>
+                    <div class="input-group">
+                        <span class="input-group-addon">
+                            <i class="glyphicon glyphicon-search"></i>
+                        </span>
+                        <input type="text" ng-model="filterEquipamento" class="form-control input-lg" placeholder="Procurar...">
+                    </div>
+                </div>
+
+                <div class="panel panel-primary" ng-init="carregaEquipamentos()">
+                    <div class="panel-heading">
+                        <h4>Listagem de Equipamentos</h4>
+                    </div>
+
+                    <div class="panel-body">
+                        <div class="table-responsive">
+                            <table class="table table-bordered">
+                                <tr>
+                                    <th>Código</th>
+                                    <th>Descrição</th>
+                                    <th>Tipo</th>
+                                    <th>Proprietário</th>
+                                    <th colspan="2" ng-hide="Configuracoes.tipoUs == 'U'">Opções</th>
+                                </tr>
+
+                                <tr ng-repeat="e in equipamentos| filter:filterEquipamento">
+                                    <td>{{e.cod}}</td>
+                                    <td>{{e.descricao}}</td>
+                                    <td>{{e.tipoEq}}</td>
+                                    <td>{{e.login}}</td>
+                                    <td ng-hide="Configuracoes.tipoUs == 'U'">
+                                        <button type="button" class="btn btn-danger" ng-click="confirmaExclusaoEquipamento(e)">
+                                            <i class="glyphicon glyphicon-trash"></i><small>Excluir</small>
+                                        </button>
+                                    </td>
+                                    <td ng-hide="Configuracoes.tipoUs == 'U'">
+                                        <button type="button" class="btn btn-info" ng-click="editarEquipamento(e);">
+                                            <i class="glyphicon glyphicon-edit"></i><small>Editar</small>
+                                        </button>
+                                    </td>
+                                </tr>
+                            </table>
+                        </div>
+                    </div>
+
+                    <div class="panel-footer">
+                        <span class="badge pull-right">
+                            Total de registros: {{(equipamentos|filter: filterEquipamento).length}} de {{equipamentos.length}}
+                        </span>
+                    </div>
+
+                    <div class="alert alert-info" ng-show="equipamentos.length === 0">
+                        <p>Ainda não há nenhum produto cadastrado!</p>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </center>
+</div>

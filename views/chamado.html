@@ -1,0 +1,174 @@
+<div ng-include src="'views/menu.html'"></div><br>
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-md-4">
+            <!-- criacao do painel do formulario -->
+            <div class="panel panel-primary">
+                <div class="panel-heading">
+                    <h4><i class="glyphicon glyphicon-pencil"></i> Cadastro de Chamados</h4>
+                </div>                    
+                <div class="panel-body">                    
+                    <form name="formChamado" class="form-horizontal"  ng-submit="salvaChamado(chamado);">
+                        <fieldset>
+                            <!-- titulo do formulario -->
+                            <legend>Cadastro de Chamados</legend>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="id">Chamado</label>  
+                                    <div class="col-md-4">
+                                    <input id="id" name="id" type="text" placeholder="Gerado automaticamente" class="form-control input-md" readonly ng-model="chamado.id" value="{{chamado.id}}">                                    
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="col-md-3 control-label" for="descricao">Descrição:*</label>  
+                                <div class="col-md-8">
+                                    <input id="descricao" name="descricao" type="text" placeholder="Descrição do Chamado" class="form-control input-md" required 
+                                           ng-model="chamado.descricao" value="{{chamado.descricao}}" minlength="15" maxlength="100">  
+
+                                    <div ng-class="{'alert alert-danger': formChamado.descricao.$invalid}" 
+                                         ng-messages="formChamado.descricao.$error" ng-if="formChamado.descricao.$touched">
+                                        <!-- somente exibiremos as mensagens de erros após o campo ter sido 'tocado' touched -->
+                                        <p ng-message="minlength">A descrição do chamado é muito curta.</p>
+                                        <p ng-message="maxlength">A descrição do chamado é muito longa.</p>
+                                        <p ng-message="required">A descrição do chamado é obrigatória.</p>
+                                    </div>
+
+                                </div>
+                            </div>
+                            
+                            <div>
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="solucao">Solução:</label>  
+                                    <div class="col-md-8">
+                                        <input id="solucao" name="solucao" type="text" placeholder="Descrição da Solução" class="form-control input-md" 
+                                               ng-model="chamado.solucao" value="{{chamado.solucao}}" ng-minlength="15" ng-disabled="Configuracoes.tipoUs == 'U'">  
+
+                                        <div ng-class="{'alert alert-danger': formChamado.descricao.$invalid}" 
+                                             ng-messages="formChamado.descricao.$error" ng-if="formChamado.descricao.$touched">
+                                            <!-- somente exibiremos as mensagens de erros após o campo ter sido 'tocado' touched -->
+                                            <p ng-message="minlength">A descrição da solução é muito curta.</p>
+                                            <p ng-message="required">A descrição da solução é obrigatória.</p>
+                                        </div>
+
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group" ng-hide="Configuracoes.tipoUs == 'U'">
+                                    <label class="col-md-3 control-label" for="solucao">Status</label>  
+                                    <div class="col-md-8">
+                                        <select class="form-control" ng-model="chamado.status" value="{{chamado.status}}">
+                                            <option value="0">Em aberto</option>
+                                            <option value="1">Fechado</option>
+                                        </select>
+                                    </div>
+                                </div>
+                                
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="solicitante">Solicitante</label>
+
+                                    <div class="col-md-6" >
+                                        <input class="form-control" id="solicitante" readonly type="text" ng-model="chamado.loginSolicitante" value="{{chamado.loginSolicitante}}">
+                                    </div>
+                                </div>
+
+                                <div class="form-group">
+                                    <label class="col-md-3 control-label" for="tecnico">Técnico</label>
+
+                                    <div class="col-md-6" >
+                                        <select class="form-control" name="tecnico" id="tecnico" ng-model="chamado.loginTecnico" value="{{chamado.loginTecnico}}" ng-init="carregaUsuarios()"
+                                                ng-options="usuario as usuario.nome disable when usuario.tipoUs != 'T' for usuario in usuarios track by usuario.login" ng-selected="chamado.loginTecnico == usuario.login">
+                                            <option value="">Selecione uma opção ...</option> 
+                                        </select>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <!-- Exemplo de botão -->
+                            <div class="well">
+                                <div class="form-group">
+                                    <div class="col-md-12">
+                                        <button id="salvar" name="salvar" class="btn btn-success" type="submit" title="Salva os dados do chamado" data-ng-disabled="formChamado.$invalid"><i class="glyphicon glyphicon-save"></i>&nbsp;Salvar os dados</button>
+                                        <a href="" class="btn btn-danger" ng-click="limpaArrayEquipamento();menu()" title="Cancelar o cadastro"><span class="glyphicon glyphicon-share-alt"></span> Cancelar</a>
+
+                                        <div ng-messages='requisicaoServidor'>
+                                            <div ng-message='aguarde' class='text-info'>Por favor, aguarde...<img src='img/aguarde.gif'></div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </fieldset>
+                    </form>
+                    {{chamado}}
+                </div>
+            </div>
+        </div>
+
+        <div class="col-md-8">
+            <div>
+                <div class="input-group">
+                    <span class="input-group-addon">
+                        <i class="glyphicon glyphicon-search"></i>
+                    </span>
+                    <input type="text" ng-model="filterChamado" class="form-control input-lg" placeholder="Procurar...">
+                </div>
+            </div>
+
+            <div class="panel panel-primary" ng-init="carregaChamados()">
+                <div class="panel-heading">
+                    <h4>Chamados</h4>
+                </div>
+
+                <div class="panel-body">
+                    <div class="table-responsive" ng-hide="chamados.length === 0">
+                        <table class="table table-bordered">
+                            <tr>
+                                <th>Chamado</th>
+                                <th>Data de Abertura</th>
+                                <th>Data Final</th>
+                                <th>Descrição</th>
+                                <th>Status</th>
+                                <th>Solicitante</th>
+                                <th>Técnico</th>
+                                <th colspan="2" ng-hide="Configuracoes.tipoUs == 'U'">Opções</th>
+                            </tr>
+
+                            <tr ng-hide="(Configuracoes.nomeUsuario != c.loginSolicitante) && (Configuracoes.tipoUs == 'U')" ng-repeat="c in chamados| filter:filterChamado">
+                                <td>{{c.id}}</td>
+                                <td>{{c.dataAbertura}}</td>
+                                <td>{{c.dataFim}}</td>
+                                <td>{{c.descricao}}</td>
+                                <td>{{c.status}}</td>
+                                <td>{{c.loginSolicitante}}</td>
+                                <td>{{c.loginTecnico}}</td>
+                               
+                                <td ng-hide="Configuracoes.tipoUs == 'U'">
+                                    <button type="button" class="btn btn-info" ng-click="editarChamado(c);">
+                                        <i class="glyphicon glyphicon-eye-open"></i><small>Editar</small>
+                                    </button>
+                                </td>
+                                
+                                <td ng-hide="Configuracoes.tipoUs == 'U'">
+                                    <button type="button" class="btn btn-danger" ng-click="confirmaExclusaoChamado(c);">
+                                        <i class="glyphicon glyphicon-trash"></i><small>Excluir</small>
+                                    </button>
+                                </td>
+                            </tr>
+                        </table>
+                    </div>
+                </div>
+
+                <div class="panel-footer" ng-hide="chamados.length === 0">
+                    <span class="badge pull-right">
+                        Total de registros: {{(chamados|filter: filterChamado).length}} de {{chamados.length}}
+                    </span>
+                </div>
+
+                <div class="alert alert-info" ng-show="chamados.length === 0">
+                    <p>Ainda não há nenhum chamado cadastrado!</p>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>

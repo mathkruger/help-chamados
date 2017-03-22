@@ -1,0 +1,54 @@
+<html>
+    <head>  
+        <meta charset="UTF-8" />
+        <title>HELP - Sistema de Chamados de T.I.</title>
+        <!-- Definindo o ícone que aparecerá na aba do navegador -->
+        <link rel="icon" type="img/ico" href="estoque.ico"/>        
+        <!-- BootStrap e jQuery -->
+        <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css"/>
+        <link rel="stylesheet" href="css/estilo.css"/>
+        <script src="js/jquery.min.js"></script>
+        <script src="js/bootstrap.min.js"></script>
+        <!-- Bootstrap dialog -->
+        <link href="css/bootstrap-dialog.min.css" rel="stylesheet" type="text/css">
+        <script src="js/bootstrap-dialog.min.js"></script>
+        <!-- Angular 1.4 -->
+        <script type="text/javascript" src="js/angular.min.js"></script>
+        <script type="text/javascript" src="js/angular-locale_pt-br.js"></script>
+        <!-- Angular Route 1.4 (utilizado para as rotas da aplicação) -->
+        <script type="text/javascript" src="js/angular-route.min.js"></script>
+        <!-- Angular Cookies 1.4 (utilizado para os cookies do login)-->
+        <script type="text/javascript" src="js/angular-cookies.min.js"></script>
+        <!-- Angular ngMask 3.0.16 (utilizado para definir a máscara nos campos)-->
+        <script type="text/javascript" src="js/ngMask.min.js"></script>
+        <!-- Angular Messages 1.4 (utilizado para exibir as mensagens nos formularios)-->
+        <!-- exemplo buscando online o arquivo
+        <script type="text/javascript" src="https://ajax.googleapis.com/ajax/libs/angularjs/1.4.0/angular-messages.js"></script> -->
+        <script type="text/javascript" src="js/angular-messages.min.js"></script> 
+        <!-- Angular Base64 (converte uma imagem para o formato base64)-->
+        <script type="text/javascript" src="js/angular-base64-upload.js"></script>
+        <!-- app -->
+        <script type="text/javascript" src="controller/app.js"></script>         
+    </head>
+    <body ng-app="helpApp" ng-controller="helpController"> 
+        <!-- carregando o cabecalho -->
+        <div ng-include src="'views/cabecalho.html'"></div>        
+        <!-- o conteudo de cada partial sera carregado abaixo atraves do ng-view. O Angular utiliza as rotas para saber qual view deverá carregar -->
+        <div ng-view></div>
+        <!-- carregando a pagina -->
+        <!--<div ng-include src="'views/rodape.html'"></div>-->
+
+        <script>
+                    var activeEl = 2;
+                    $(function () {
+                        var items = $('.btn-nav');
+                        $(items[activeEl]).addClass('active');
+                        $(".btn-nav").click(function () {
+                            $(items[activeEl]).removeClass('active');
+                            $(this).addClass('active');
+                            activeEl = $(".btn-nav").index(this);
+                        });
+                    });
+        </script>
+    </body>
+</html>

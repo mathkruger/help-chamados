@@ -1,0 +1,21 @@
+<div class="jumbotron" style="background-color: rgba(95,107,131,0.8);">
+    <div class="container">
+        <form ng-submit="validaLogin(login)" ng-hide="Configuracoes.nomeUsuario.length >0">
+            <div class="form-group">
+                <input type="text" placeholder="Usuário" class="form-control" ng-model="login.usuario" size="15" required autofocus>
+            </div>
+            <div class="form-group">
+                <input type="password" placeholder="Senha" class="form-control" ng-model="login.senha" size="10" required>
+            </div>
+            <button type="submit" class="btn btn-success"><i class="glyphicon glyphicon-user"></i> Login</button>
+        </form>    
+
+        <br>
+        
+        <h2 class='textoBonito' style='color: white;'>HELP - Sistema de Chamados de T.I.</h2>
+        <p style='color: white;'>Seja bem vindo ao HELP!</p>
+        <p style='color: white;'>Utilize seu login e senha para acessar o sistema.</p>
+        <p style='color: white;'>Não sabe seu login nem sua senha? <a href="mailto:ms-kruger@hotmail.com">Entre em contato</a> </p>
+    </div>
+</div>
+

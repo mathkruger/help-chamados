@@ -1,0 +1,31 @@
+<!-- Para ter o acesso aos ícones do glyphicon, acesse: http://getbootstrap.com/components/#glyphicons -->
+<!-- Para ter sugestões de menus com Bootstrap, visite: http://bootsnipp.com/ -->
+<br>
+<div class="row">
+    <div class="alert alert-success" role="alert">
+        <strong>{{Configuracoes.nomeUsuario}}</strong>, seja bem vindo ao sistema!
+    </div>
+    <div class="btn-group btn-group-justified">
+        <div class="btn-group" ng-show="Configuracoes.tipoUs == 'A'">
+            <a href="#/usuarios" type="button" class="btn btn-nav">
+                <span class="glyphicon glyphicon-user"></span>
+                <p>Usuários</p>
+            </a>
+        </div>
+        <div class="btn-group">
+            <a href="#/equipamentos" type="button" class="btn btn-nav">
+                <span class="glyphicon glyphicon-hdd"></span>
+                <p>Equipamentos</p>
+            </a>
+        </div>
+        <div class="btn-group">
+            <a href="#/chamados" type="button" class="btn btn-nav">
+                <span class="glyphicon glyphicon-send"></span>
+                <p>Chamados</p>
+            </a>
+        </div>
+    </div>
+</div>
+
+
+

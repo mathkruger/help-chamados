@@ -1,0 +1,10 @@
+{
+    "elements": {
+        "dir-pagination-controls": {}
+    },
+    "attributes": {
+        "dir-paginate": {
+            "context": "tr"
+        }
+    }
+}
